@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: nginx-example
+  name: nginx-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nginx-example
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nginx-example
+    spec:
+      containers:
+      - image: 443370672158.dkr.ecr.us-east-1.amazonaws.com/lepsey_repository:2
+        name: nginx
+        ports:
+        - containerPort: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-0c911eba3be0adc8c,eipalloc-09ff293549cab61ff
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: nginx-example
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+
