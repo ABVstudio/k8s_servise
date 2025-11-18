@@ -6,6 +6,7 @@ pipeline {
     }
     
     environment {
+        DEPLOY_NAME = 'nginx-dep'
         Name_inf   = 'k8s_servise'
         URL_inf    = 'git@github.com:ABVstudio/k8s_servise.git'
         REGION     = 'us-east-1'
@@ -26,6 +27,11 @@ pipeline {
         stage('apply servise') {
             steps {
                 sh "kubectl apply -f ${Name_inf}/*.yaml"
+            }
+        }
+        stage('update deployments') {
+            steps {
+                sh "kubectl rollout restart deployment ${DEPLOY_NAME}"
             }
         }
     }
