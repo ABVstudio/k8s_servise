@@ -15,7 +15,7 @@ spec:
         name: nginx-example
     spec:
       containers:
-      - image: 443370672158.dkr.ecr.us-east-1.amazonaws.com/lepsey_repository:11
+      - image: 443370672158.dkr.ecr.us-east-1.amazonaws.com/lepsey_repository:latest
         name: nginx
         ports:
         - containerPort: 80
